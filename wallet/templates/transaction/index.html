@@ -1,0 +1,51 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'transaction/index.css' %}">
+
+<div class="title-app">
+    <p> Wallet app </p>
+</div>
+
+<div class="btn-add-transaction">
+    <button>
+        <a href="{% url 'wallet:add' %}">Add</a>
+    </button>
+</div>
+
+{% if transaction_list_by_date_created %}
+<div class="list-transaction">
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Detail</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transaction_list_by_date_created %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{transaction.category}}</td>
+                <td>{{transaction.amount}}</td>
+                <td>{{transaction.detail}}</td>
+                <td>{{transaction.date_created|date:'d-m-Y'}}</td>
+                <td>
+                    <button class="edit-btn">
+                        <a href="{% url 'wallet:edit' transaction.id %}">Edit</a>
+                    </button>
+                    <button class="delete-btn">
+                        <a href="{% url 'wallet:delete' transaction.id %}">Delete</a>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="message-no-transaction">No transactions are available...</p>
+{% endif %}

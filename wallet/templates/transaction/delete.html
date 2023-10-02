@@ -1,0 +1,26 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'transaction/delete.css' %}">
+
+<div class="delete-transaction-container">
+    <form action="{% url 'wallet:destroy' transaction.id %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>
+                <p>Delete transaction</p>
+            </legend>
+
+            <p class="message-confirm-delete">
+                Do you sure you want to delete transaction
+                <strong>"{{transaction.detail}}"</strong>
+                ?
+            </p>
+        </fieldset>
+        <div class="btn">
+            <input class="submit-btn" type="submit" value="Delete">
+            <button class="return-btn">
+                <a href="{% url 'wallet:index' %}">Back</a>
+            </button>
+        </div>
+    </form>
+</div>

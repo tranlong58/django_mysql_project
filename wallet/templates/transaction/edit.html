@@ -1,0 +1,37 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'transaction/edit.css' %}">
+
+<div class="edit-transaction-container">
+    <form action="{% url 'wallet:update' transaction.id %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>
+                <p>Edit transaction</p>
+            </legend>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+            <label for="amount">Amount</label>
+            <input required type="number" name="amount" value="{{transaction.amount}}">
+            <br>
+
+            <label for="category">Category</label>
+            <input required type="text" name="category" value="{{transaction.category}}">
+            <br>
+
+            <label for="detail">Detail</label>
+            <input required type="text" name="detail" value="{{transaction.detail}}">
+            <br>
+
+            <label for="date_created">Date</label>
+            <input required type="date" name="date_created" value="{{transaction.date_created|date:'Y-m-d'}}">
+
+        </fieldset>
+        <div class="btn">
+            <input class="submit-btn" type="submit" value="Save">
+            <button class="return-btn">
+                <a href="{% url 'wallet:index' %}">Back</a>
+            </button>
+        </div>
+    </form>
+</div>
