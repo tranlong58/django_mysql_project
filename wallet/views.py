@@ -13,7 +13,6 @@ class IndexView(generic.ListView):
     context_object_name = "transaction_list_by_date_created"
 
     def get_queryset(self):
-        """Return the last five published questions."""
         return Transaction.objects.all().order_by("-date_created", "-id")
 
 
