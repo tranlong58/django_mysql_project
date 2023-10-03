@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <link rel="stylesheet" href="{% static 'transaction/add.css' %}">
 
@@ -12,7 +13,7 @@
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
             <label for="amount">Amount</label>
-            <input required type="number" name="amount" id="amount">
+            <input required type="number" name="amount" id="amount" min="1000" max="500000000" step="1000">
             <br>
 
             <label for="category">Category</label>

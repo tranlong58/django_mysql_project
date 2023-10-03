@@ -1,8 +1,10 @@
 FROM python:3
 
+# RUN apt-get update && apt-get install -y rsync
+
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /django
+WORKDIR /app
 
 COPY requirements.txt requirements.txt
 

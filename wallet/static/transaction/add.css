@@ -34,6 +34,7 @@ button {
 .add-transaction-container fieldset input {
     font-size: 20px;
     padding: 5px;
+    width: 270px;
 }
 
 .add-transaction-container .btn {

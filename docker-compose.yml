@@ -27,3 +27,15 @@ services:
       DB_HOST: db
     # depends_on:
     #   - db
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./staticfiles:/app/staticfiles
+    depends_on:
+      - web
+    # command: /bin/sh -c "cp -r /app/staticfiles/* /app/staticfiles/ && nginx -g 'daemon off;'"
+# volumes:
+#   web:

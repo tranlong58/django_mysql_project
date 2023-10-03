@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 
 <link rel="stylesheet" href="{% static 'transaction/index.css' %}">
 
@@ -30,7 +31,7 @@
             <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{transaction.category}}</td>
-                <td>{{transaction.amount}}</td>
+                <td>{{transaction.amount|intcomma}}</td>
                 <td>{{transaction.detail}}</td>
                 <td>{{transaction.date_created|date:'d-m-Y'}}</td>
                 <td>
