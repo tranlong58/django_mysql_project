@@ -35,7 +35,8 @@ def store(request):
         category=request.POST["category"],
         amount=request.POST["amount"],
         detail=request.POST["detail"],
-        date_created=request.POST["date_created"]
+        date_created=request.POST["date_created"],
+        kind=request.POST["kind"]
     )
     new_transaction.save()
     return HttpResponseRedirect(reverse("wallet:index"))
@@ -48,6 +49,7 @@ def update(request, transaction_id):
     updated_transaction.amount = request.POST["amount"]
     updated_transaction.detail = request.POST["detail"]
     updated_transaction.date_created = request.POST["date_created"]
+    updated_transaction.kind = request.POST["kind"]
 
     updated_transaction.save()
     return HttpResponseRedirect(reverse("wallet:index"))

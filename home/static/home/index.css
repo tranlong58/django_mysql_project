@@ -33,6 +33,10 @@ button {
     background-color: #e24b4b;
 }
 
+.top-nav .tts-btn {
+    background-color: #e7d538;
+}
+
 .top-nav button a {
     padding: 10px 20px;
     color: black;

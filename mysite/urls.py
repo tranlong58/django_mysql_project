@@ -27,5 +27,7 @@ from django.urls import include, path
 urlpatterns = [
     path("", include("home.urls")),
     path("wallet/", include("wallet.urls")),
+    path("api/", include("api.urls")),
+    path("tts/", include("tts.urls")),
     path("admin/", admin.site.urls),
 ]

@@ -12,6 +12,14 @@ button {
     border: none;
 }
 
+.width-auto {
+    width: auto !important;
+}
+
+.ml-0 {
+    margin-left: 0 !important;
+}
+
 /* -------- */
 
 .edit-transaction-container {
@@ -26,7 +34,7 @@ button {
 
 .edit-transaction-container label {
     font-size: 20px;
-    margin: 10px 0 20px 20px;
+    margin: 20px;
     width: 90px;
     display: inline-block;
 }

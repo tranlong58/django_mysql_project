@@ -1,0 +1,96 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+}
+
+.width-auto {
+    width: auto !important;
+}
+
+.ml-0 {
+    margin-left: 0 !important;
+}
+
+/* -------- */
+
+.tts-container {
+    margin: 50px auto;
+    width: 600px;
+}
+
+.tts-container legend p {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.label-textarea {
+    vertical-align: top;
+}
+
+textarea {
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.tts-container label {
+    font-size: 20px;
+    margin: 20px;
+    width: 90px;
+    display: inline-block;
+}
+
+.tts-container fieldset input {
+    font-size: 20px;
+    padding: 5px;
+    width: 270px;
+}
+
+.tts-container .btn {
+    margin-top: 10px;
+    display: flex;
+}
+
+.tts-container .btn .submit-btn {
+    margin-left: auto;
+    margin-right: 20px;
+    border: none;
+    background-color: #4CAF50;
+    padding: 8px 16px;
+    font-size: 20px;
+}
+
+.tts-container .btn .submit-btn:hover {
+    cursor: pointer;
+    opacity: 0.6;
+    color: white;
+}
+
+.tts-container .btn .return-btn {
+    margin-right: 10px;
+    background-color: #cbc8c8;
+    padding: 8px 0px;
+    font-size: 20px;
+}
+
+.tts-container .btn .return-btn:hover {
+    opacity: 0.6;
+}
+
+.tts-container .btn .return-btn a {
+    padding: 8px 16px;
+    color: black;
+}
+
+.tts-container .btn .return-btn a:hover {
+    color: white;
+}

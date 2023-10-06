@@ -27,6 +27,13 @@
             <label for="date_created">Date</label>
             <input required type="date" name="date_created" id="date_created"
                 value="{{transaction.date_created|date:'Y-m-d'}}">
+            <br>
+            
+            <label>Kind</label>
+            <input type="radio" name="kind" id="expense" class="width-auto" value="-1" {% if transaction.kind == -1 %} checked {% endif %}>
+            <label for="expense" class="ml-0">Expense</label>
+            <input type="radio" name="kind" id="income" class="width-auto" value="1" {% if transaction.kind == 1 %} checked {% endif %}>
+            <label for="income" class="ml-0">Income</label>
 
         </fieldset>
         <div class="btn">

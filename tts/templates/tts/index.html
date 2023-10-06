@@ -1,0 +1,36 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'tts/index.css' %}">
+
+<div class="tts-container">
+    <form action="{% url 'tts:solve' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>
+                <p>Generate TTS Audio</p>
+            </legend>
+
+            <label for="prompt" class="label-textarea">Prompt</label>
+            <textarea required name="prompt" id="prompt" rows="4" cols="23"></textarea>
+            <br>
+
+            <label>Mode</label>
+            <input type="radio" name="mode" id="simple" class="width-auto" value="0" checked>
+            <label for="simple" class="ml-0">Simple</label>
+            <input type="radio" name="mode" id="advance" class="width-auto" value="1">
+            <label for="advance" class="ml-0">Advance</label>
+            <br>
+
+            <label for="voice_id">Voice ID</label>
+            <input required type="text" name="voice_id" id="voice_id">
+            <br>
+
+        </fieldset>
+        <div class="btn">
+            <input class="submit-btn" type="submit" value="Submit">
+            <button class="return-btn">
+                <a href="/">Back</a>
+            </button>
+        </div>
+    </form>
+</div>
