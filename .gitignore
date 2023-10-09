@@ -1,2 +1,5 @@
 db/
 __pycache__/
+db.sqlite3
+staticfiles/
+mysite/secret_key.py
