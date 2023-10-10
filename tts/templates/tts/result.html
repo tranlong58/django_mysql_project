@@ -1,5 +1,5 @@
-{% if audio_path %}
-    <h3>audio_path === <a href="https://storage.googleapis.com/vocodes-public{{ audio_path }}" target="_blank">https://storage.googleapis.com/vocodes-public{{ audio_path }}</a></h1>
+{% if audio_link %}
+    <h3>audio_link === <a href="{{ audio_link }}" target="_blank">{{ audio_link }}</a></h1>
 {% else %}
-    <h1>audio_path không tồn tại</h1>
+    <h1>audio_link không tồn tại</h1>
 {% endif %}

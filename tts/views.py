@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-
-import time
+from django.views.decorators.csrf import csrf_exempt
 
 from .services import tts_services
 
@@ -14,11 +13,11 @@ def index(request):
 
 
 def result(request):
-    audio_path = request.session.get("audio_path", None)
+    audio_link = request.session.get("audio_link", None)
 
-    if audio_path is not None:
-        context = {"audio_path": audio_path}
-        del request.session["audio_path"]
+    if audio_link is not None:
+        context = {"audio_link": audio_link}
+        del request.session["audio_link"]
     else:
         context = {}
 
@@ -30,15 +29,21 @@ def solve(request):
     mode = request.POST["mode"]
     voice_id = request.POST["voice_id"]
 
-    response = tts_services.get_inference_job_token(prompt, mode, voice_id)
+    response = tts_services.get_audio_link(prompt, mode, voice_id)
 
-    time.sleep(0.5)
-
-    audio_path = tts_services.get_audio_path(response)
-
-    if audio_path is not None:
-        request.session["audio_path"] = audio_path
+    request.session["audio_link"] = response.get("body").get("audio_link", None)
 
     return HttpResponseRedirect(reverse("tts:result"))
+
+
+@csrf_exempt
+def get_audio_api(request):
+    prompt = request.POST["prompt"]
+    mode = request.POST["mode"]
+    voice_id = request.POST["voice_id"]
+
+    response = tts_services.get_audio_link(prompt, mode, voice_id)
+    
+    return JsonResponse(response)
 
     
