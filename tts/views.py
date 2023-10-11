@@ -38,12 +38,14 @@ def solve(request):
 
 @csrf_exempt
 def get_audio_api(request):
-    prompt = request.POST["prompt"]
-    mode = request.POST["mode"]
-    voice_id = request.POST["voice_id"]
+    response = tts_services.verify_request(request)
 
-    response = tts_services.get_audio_link(prompt, mode, voice_id)
-    
+    if response["result"]:
+        prompt = request.POST["prompt"]
+        mode = request.POST["mode"]
+        voice_id = request.POST["voice_id"]
+        
+        response = tts_services.get_audio_link(prompt, mode, voice_id)
+
     return JsonResponse(response)
-
     

@@ -40,7 +40,8 @@ class FakeYouAPIAdapter:
 
 
     def wait_for_tts_complete(self, poll_request_status_url):
-        while True:
+        t=0
+        while t<=10:
             response_new = requests.get(poll_request_status_url)
             if response_new.status_code != 200:
                 return None  
@@ -53,7 +54,8 @@ class FakeYouAPIAdapter:
             elif status == 'complete_failure' or status == 'dead':
                 return None  
             
-            time.sleep(0.5)
+            t+=1
+            time.sleep(2)
 
 
     def poll_tts_request_status(self, result_job_token):
@@ -99,4 +101,11 @@ class FakeYouAPIAdapter:
                 }
             }
         
+        return response
+    
+    
+    def get_audio_link(self, prompt, mode, voice_id):
+        result_job_token = self.make_tts_request(prompt, mode, voice_id)
+        response = self.poll_tts_request_status(result_job_token)
+
         return response
