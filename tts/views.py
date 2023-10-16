@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import AuthenticationFailed
+
 
 from .services import tts_services
 
@@ -38,14 +42,28 @@ def solve(request):
 
 @csrf_exempt
 def get_audio_api(request):
-    response = tts_services.verify_request(request)
+    if tts_services.check_authen(request):
+        response = tts_services.verify_request(request)
 
-    if response["result"]:
-        prompt = request.POST["prompt"]
-        mode = request.POST["mode"]
-        voice_id = request.POST["voice_id"]
+        if response["result"]:
+            prompt = request.POST["prompt"]
+            mode = request.POST["mode"]
+            voice_id = request.POST["voice_id"]
+            
+            response = tts_services.get_audio_link(prompt, mode, voice_id)
+
+    else:
+        response = {
+                "result": False,
+                "status": {
+                    "code": 401,
+                    "message": "Authentication error"
+                },
+                "body": {
+                    "error": "Token is invalid or expired"
+                }
+            }
         
-        response = tts_services.get_audio_link(prompt, mode, voice_id)
-
-    return JsonResponse(response)
+        
+    return JsonResponse(response, status=response['status']['code'])
     
