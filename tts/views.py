@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import AuthenticationFailed
+import jwt
+import datetime
+from django.utils import timezone
+from mysite.settings import SECRET_KEY
 
 
 from .services import tts_services
@@ -41,8 +42,25 @@ def solve(request):
 
 
 @csrf_exempt
+def create_token(request):
+    user_id = request.POST['user_id']
+    expiration_time = timezone.now() + datetime.timedelta(hours=1)
+    exp_timestamp = expiration_time.timestamp()
+
+    payload = {
+        'user_id': user_id,
+        'exp': exp_timestamp,
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    response = {
+        "token": token
+    }
+    return JsonResponse(response)
+
+
+@csrf_exempt
 def get_audio_api(request):
-    if tts_services.check_authen(request):
+    if tts_services.authenticate_token(request):
         response = tts_services.verify_request(request)
 
         if response["result"]:
@@ -64,6 +82,4 @@ def get_audio_api(request):
                 }
             }
         
-        
     return JsonResponse(response, status=response['status']['code'])
-    
