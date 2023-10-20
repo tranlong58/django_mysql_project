@@ -51,10 +51,13 @@ def create_token(request):
         'user_id': user_id,
         'exp': exp_timestamp,
     }
+
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
     response = {
         "token": token
     }
+
     return JsonResponse(response)
 
 
@@ -69,7 +72,6 @@ def get_audio_api(request):
             voice_id = request.POST["voice_id"]
             
             response = tts_services.get_audio_link(prompt, mode, voice_id)
-
     else:
         response = {
                 "result": False,

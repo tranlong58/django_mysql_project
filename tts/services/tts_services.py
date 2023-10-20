@@ -1,6 +1,5 @@
 from .adapters.fake_you_api_adapter import FakeYouAPIAdapter
 import re
-import requests
 import jwt
 from mysite.settings import SECRET_KEY
 
@@ -33,24 +32,6 @@ def authenticate_token(request):
         except jwt.DecodeError:
             return False
     
-    return False
-
-
-def check_authen(request):
-    pattern = re.compile(r'^Bearer\s(.+)$')
-    authorization = request.headers.get('Authorization', None)
-
-    if authorization and pattern.match(authorization):
-        token = authorization.split(' ')[-1]
-        data={
-            "token": token
-        }
-
-        response = requests.post("http://localhost:8000/api/token/verify/", json=data)
-
-        if response.status_code == 200:
-            return True
-       
     return False
 
 
