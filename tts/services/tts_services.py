@@ -17,26 +17,26 @@ def get_audio_link(prompt, mode, voice_id, voice_volume, pitch, speech):
     return response
 
 
-def authenticate_token(request):
-    pattern = re.compile(r'^Bearer\s(.+)$')
-    authorization = request.headers.get('Authorization', None)
+# def authenticate_token(request):
+#     pattern = re.compile(r'^Bearer\s(.+)$')
+#     authorization = request.headers.get('Authorization', None)
 
-    if authorization and pattern.match(authorization):
-        token = authorization.split(' ')[-1]
+#     if authorization and pattern.match(authorization):
+#         token = authorization.split(' ')[-1]
 
-        try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+#         try:
+#             payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
 
-            # do something 
+#             # do something 
 
-            return True
+#             return True
             
-        except jwt.ExpiredSignatureError:
-            return False
-        except jwt.DecodeError:
-            return False
+#         except jwt.ExpiredSignatureError:
+#             return False
+#         except jwt.DecodeError:
+#             return False
     
-    return False
+#     return False
 
 
 def check_authen(request):
