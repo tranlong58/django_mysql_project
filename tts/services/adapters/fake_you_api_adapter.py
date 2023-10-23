@@ -1,6 +1,5 @@
 import requests
 import uuid
-
 import time
 
 class FakeYouAPIAdapter:
@@ -9,7 +8,7 @@ class FakeYouAPIAdapter:
         self.poll_request_status_base_url = poll_request_status_base_url
 
 
-    def make_tts_request(self, prompt, mode, voice_id):
+    def make_tts_request(self, prompt, voice_id):
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -104,8 +103,47 @@ class FakeYouAPIAdapter:
         return response
     
     
-    def get_audio_link(self, prompt, mode, voice_id):
-        result_job_token = self.make_tts_request(prompt, mode, voice_id)
+    def get_audio_link_simple(self, prompt, voice_id):
+        result_job_token = self.make_tts_request(prompt, voice_id)
         response = self.poll_tts_request_status(result_job_token)
 
+        return response
+    
+
+    def get_audio_link_advance(self, prompt, voice_id, voice_volume, pitch, speech):
+        response = {
+                    "result": True,
+                    "status": {
+                        "code": 200,
+                        "message": "Success"
+                    },
+                    "body": {
+                        "audio_link": f"Test: {voice_volume}, {pitch}, {speech}"
+                    }
+                }
+        
+        if voice_volume is None or pitch is None or speech is None:
+            return {
+                "result": False,
+                "status": {
+                    "code": 400,
+                    "message": "Bad request"
+                },
+                "body": {
+                    "error": "Missing field"
+                }
+            }  
+        
+        if not (voice_volume.strip() and pitch.strip() and speech.strip()):
+            return {
+                "result": False,
+                "status": {
+                    "code": 400,
+                    "message": "Bad request"
+                },
+                "body": {
+                    "error": "Wrong input"
+                }
+            }
+        
         return response
