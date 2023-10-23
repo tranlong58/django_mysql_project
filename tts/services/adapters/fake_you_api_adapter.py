@@ -110,18 +110,7 @@ class FakeYouAPIAdapter:
         return response
     
 
-    def get_audio_link_advance(self, prompt, voice_id, voice_volume, pitch, speech):
-        response = {
-                    "result": True,
-                    "status": {
-                        "code": 200,
-                        "message": "Success"
-                    },
-                    "body": {
-                        "audio_link": f"Test: {voice_volume}, {pitch}, {speech}"
-                    }
-                }
-        
+    def get_audio_link_advance(self, prompt, voice_id, voice_volume, pitch, speech):        
         if voice_volume is None or pitch is None or speech is None:
             return {
                 "result": False,
@@ -145,5 +134,16 @@ class FakeYouAPIAdapter:
                     "error": "Wrong input"
                 }
             }
+        
+        response = {
+                    "result": True,
+                    "status": {
+                        "code": 200,
+                        "message": "Success"
+                    },
+                    "body": {
+                        "audio_link": f"Test: {voice_volume}, {pitch}, {speech}"
+                    }
+                }
         
         return response
