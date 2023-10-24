@@ -15,6 +15,7 @@ class FakeYouAPIAdapter:
         }
 
         uuid_idempotency_token = str(uuid.uuid4())
+
         data = {
             "uuid_idempotency_token": uuid_idempotency_token,
             "tts_model_token": voice_id,
@@ -22,30 +23,27 @@ class FakeYouAPIAdapter:
         }
 
         response = requests.post(self.make_request_url, headers=headers, json=data)
-        
-        result = {}
+     
         if response.status_code == 200:
-            result["success"] = True
-            result["body"] = {
+            return {
+                "success": True,
                 "inference_job_token": response.json().get("inference_job_token")
             }
+        
         else:
-            result["success"] = False
-            result["body"] = {
-                "error": "Not found model"
+            return {
+                "success": False,
             }
-
-        return result
 
 
     def wait_for_tts_complete(self, poll_request_status_url):
         t=0
         while t<=10:
-            response_new = requests.get(poll_request_status_url)
-            if response_new.status_code != 200:
+            response = requests.get(poll_request_status_url)
+            if response.status_code != 200:
                 return None  
 
-            state = response_new.json().get('state')
+            state = response.json().get('state')
             status = state.get('status')
 
             if status == 'complete_success':
@@ -59,15 +57,14 @@ class FakeYouAPIAdapter:
 
     def poll_tts_request_status(self, result_job_token):
         if result_job_token["success"]:
-            inference_job_token = result_job_token["body"].get("inference_job_token")
+            inference_job_token = result_job_token.get("inference_job_token")
 
             audio_path = self.wait_for_tts_complete(self.poll_request_status_base_url + inference_job_token)
             
-            response = {}
             if audio_path is not None:
                 audio_link = "https://storage.googleapis.com/vocodes-public" + audio_path
 
-                response = {
+                return {
                     "result": True,
                     "status": {
                         "code": 200,
@@ -77,8 +74,9 @@ class FakeYouAPIAdapter:
                         "audio_link": audio_link
                     }
                 }
+            
             else:
-                response = {
+                return {
                     "result": False,
                     "status": {
                         "code": 500,
@@ -87,20 +85,19 @@ class FakeYouAPIAdapter:
                     "body": {
                         "error": "Audio processing failed"
                     }
-                }            
+                }
+                        
         else:
-            response = {
+            return {
                 "result": False,
                 "status": {
                     "code": 400,
                     "message": "Bad request"
                 },
                 "body": {
-                    "error": result_job_token["body"].get("error")
+                    "error": "Not found model"
                 }
             }
-        
-        return response
     
     
     def get_audio_link_simple(self, prompt, voice_id):
@@ -110,40 +107,38 @@ class FakeYouAPIAdapter:
         return response
     
 
-    def get_audio_link_advance(self, prompt, voice_id, voice_volume, pitch, speech):        
-        if voice_volume is None or pitch is None or speech is None:
-            return {
-                "result": False,
-                "status": {
-                    "code": 400,
-                    "message": "Bad request"
-                },
-                "body": {
-                    "error": "Missing field"
-                }
-            }  
+    def get_audio_link_advance(self, prompt, voice_id, voice_volume, pitch, speech):
+        # if (voice_volume is None) or (pitch is None) or (speech is None):
+        #     return {
+        #         "result": False,
+        #         "status": {
+        #             "code": 400,
+        #             "message": "Bad request"
+        #         },
+        #         "body": {
+        #             "error": "Missing field or Wrong input"
+        #         }
+        #     } 
         
-        if not (voice_volume.strip() and pitch.strip() and speech.strip()):
-            return {
-                "result": False,
-                "status": {
-                    "code": 400,
-                    "message": "Bad request"
-                },
-                "body": {
-                    "error": "Wrong input"
-                }
+        # if not (voice_volume.strip() and pitch.strip() and speech.strip()):
+        #     return {
+        #         "result": False,
+        #         "status": {
+        #             "code": 400,
+        #             "message": "Bad request"
+        #         },
+        #         "body": {
+        #             "error": "Missing field or Wrong input"
+        #         }
+        #     }
+        
+        return {
+            "result": True,
+            "status": {
+                "code": 200,
+                "message": "Success"
+            },
+            "body": {
+                "audio_link": f"Test: {voice_volume}, {pitch}, {speech}"
             }
-        
-        response = {
-                    "result": True,
-                    "status": {
-                        "code": 200,
-                        "message": "Success"
-                    },
-                    "body": {
-                        "audio_link": f"Test: {voice_volume}, {pitch}, {speech}"
-                    }
-                }
-        
-        return response
+        }
