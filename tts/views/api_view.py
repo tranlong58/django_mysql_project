@@ -14,13 +14,13 @@ def get_audio_api(request):
         response = tts_services.get_audio_link(request)
     else:
         response = {
-            "result": False,
-            "status": {
-                "code": 400,
-                "message": "Bad request"
+            'result': False,
+            'status': {
+                'code': 400,
+                'message': 'Bad request'
             },
-            "body": {
-                "error": "Missing field or Wrong input"
+            'body': {
+                'error': 'Missing field or Wrong input'
             }
         }
         

@@ -1,8 +1,10 @@
+import re
+
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.exceptions import TokenError
+
 from tts.exceptions.InvalidToken import InvalidToken
 
-import re
 
 class AuthenMiddleware:
     def __init__(self, get_response):
@@ -21,7 +23,6 @@ class AuthenMiddleware:
                 raise InvalidToken
             
             token = authorization.split(' ')[-1]
-            
             token_obj = AccessToken(token)
             payload = token_obj.payload
             username = payload.get('username') #user_id

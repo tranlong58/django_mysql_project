@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 class InvalidToken(BaseException):
-    def __init__(self, message="Invalid token", code=401):
+    def __init__(self, message='Invalid token', code=401):
         self.message = message
         self.code = code
         super().__init__(self.message)
@@ -9,13 +9,13 @@ class InvalidToken(BaseException):
 
     def handleError(self):
         response = {
-            "result": False,
-            "status": {
-                "code": 401,
-                "message": "Authentication error"
+            'result': False,
+            'status': {
+                'code': 401,
+                'message': 'Authentication error'
             },
-            "body": {
-                "error": "Token is invalid or expired"
+            'body': {
+                'error': 'Token is invalid or expired'
             }
         }
 
