@@ -20,10 +20,10 @@ def get_audio_link(request):
 
 
 def verify_input(request):
-    if not("prompt" in request.POST) or not("mode" in request.POST) or not("voice_id" in request.POST):
+    if ("prompt" not in request.POST) or ("mode" not in request.POST) or ("voice_id" not in request.POST):
         return False
     
-    if not request.POST["prompt"].strip() or request.POST["mode"] not in ('0','1', 0, 1) or not request.POST["voice_id"].strip():
+    if (not request.POST["prompt"].strip()) or (request.POST["mode"] not in ('0','1', 0, 1)) or (not request.POST["voice_id"].strip()):
         return False
 
     return True   
